@@ -1,7 +1,7 @@
 import React from "react";
 
 function AuthorDetail(props) {
-    const author = props.selectAuthor();
+    const author = props.author
     const authorName = `${author.first_name} ${author.last_name}`;
     return (
 

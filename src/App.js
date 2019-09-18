@@ -21,7 +21,7 @@ class App extends Component {
 
   authorIsSelected = () => {
     if (this.state.currentAuthor !== null)
-      return <AuthorDetail selectAuthor={this.selectAuthor} />
+      return <AuthorDetail author={this.selectAuthor} />
     else
       return <AuthorsList selectAuthor={this.selectAuthor} authors={authors} />
 
