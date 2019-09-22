@@ -10,39 +10,67 @@ import AuthorDetail from "./AuthorDetail"
 
 class App extends Component {
   state = {
-    currentAuthor: null
+    currentAuthor: null,
+    filteredAuthors: authors,
   };
+
   selectAuthor = author => {
 
     this.setState({
       currentAuthor: author
     })
+  };
+
+
+
+
+  // filterAuthors = query => {
+  //   let filteredAuthors = authors
+  //   this.filteredAuthors = filteredAuthors.filter((author) => {
+  //     let authorName = author.first_name.toLowerCase() + author.last_name.toLowerCase()
+  //     return this.authorName.indexOf(
+  //       query.toLowerCase()) !== -1  // 
+
+  //   })
+  //   this.setState({
+  //     filteredAuthors: filteredAuthors
+  //   })
+
+  // }
+
+  filterAuthors = query => {
+    const filteredAuthors = authors.filter(author => {
+      return `${author.first_name} ${author.last_name}`.toLowerCase().includes(query.toLowerCase());
+    });
+
+    this.setState({
+      filteredAuthors: filteredAuthors
+    })
   }
 
-  authorIsSelected = () => {
-    if (this.state.currentAuthor !== null)
-      return <AuthorDetail author={this.selectAuthor} />
+  getView = () => {
+    if (this.state.currentAuthor) // (this.state.currentAuthor !== null)
+      return <AuthorDetail author={this.state.currentAuthor} />
     else
-      return <AuthorsList selectAuthor={this.selectAuthor} authors={authors} />
-
-
+      return <AuthorsList
+        authors={this.state.filteredAuthors}
+        selectAuthor={this.selectAuthor}
+        filterAuthors={this.filterAuthors} />
+    //<AuthorsList selectAuthor={this.selectAuthor} authors={this.state.filteredAuthors} match={this.props.match} onChange={this.filterAuthors} filterAuthors={this.filterAuthors} />
 
   }
+
 
   render() {
     return (
       <div id="app" className="container-fluid">
         <div className="row">
           <div className="col-2">
-            <Sidebar />
+            <Sidebar selectAuthor={this.selectAuthor} />
           </div>
           <div className="content col-10">
 
-            <div> {this.authorIsSelected()} </div>
-            {
-              /* <AuthorDetail />
-            <AuthorsList selectAuthor={this.selectAuthor} authors={authors} /> */
-            }
+            {this.getView()}
 
           </div>
         </div>
